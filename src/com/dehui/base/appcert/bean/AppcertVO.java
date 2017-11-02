@@ -17,7 +17,7 @@ public class AppcertVO implements java.io.Serializable {
 
     private String remark;
 
-    public String getAppid() {
+    public   String getAppid() {
         return appid;
     }
 
