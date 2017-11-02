@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd"
+                        default-lazy-init="true">
+
+  <bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
+        <property name="service" value="#{configproperties['local_app_url']}/j_spring_cas_security_check"/>
+        <property name="sendRenew" value="false"/>
+    </bean>
+
+   <bean id="casProcessingFilterEntryPoint" class="com.digitalchina.frame.security.CustomAuthenticationEntryPoint">
+        <property name="loginUrl" value="#{configproperties['cas_service_url_https']}/login"/>
+        <property name="serviceProperties" ref="serviceProperties"/><!-- 不配置该属性登录完会停留在CAS登录成功页面 -->
+        <property name="casParameters" ref="CasParameters"/>
+    </bean>
+     <bean id="CasParameters" class="com.digitalchina.frame.security.CasParameters">
+    	<property name="casLoginUrl" value="#{configproperties['cas_service_url_https']}/login"/><!-- 附带登录页面的单点登录地址 -->
+    	<property name="casNoflowUrl" value="#{configproperties['cas_service_url_https']}/noflow"/><!-- 不带登录页面的单点登录地址 -->
+    	<property name="casLogOutUrl" value="#{configproperties['cas_service_url_https']}/logout"/><!-- 单点登出地址 -->
+    	<property name="logOutCallbackUrl" value="#{configproperties['local_app_url']}/j_spring_security_logout"/><!-- 单点登出回调地址 -->
+    	<property name="platformUrl" value="#{configproperties['local_app_url']}"/><!-- 所属平台url,用于返回正确的注册功能 -->
+	</bean>
+</beans>

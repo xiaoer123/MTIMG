@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <description>数据源相关定义</description>
+
+  
+<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<!--  <property name="driverClass" value="#{configproperties['jdbc.driverClassName']}"/>
+         <property name="jdbcUrl" value="jdbc:oracle:thin:@#{configproperties['jdbc.url']}"/>            
+         <property name="user" value="#{configproperties['jdbc.username']}"/>
+         <property name="password" value="#{configproperties['jdbc.password']}"/> -->
+         <!--
+          <property name="driverClass" value="${jdbc.driverClassName}"></property>
+         <property name="jdbcUrl" value="${jdbc.url}"></property>               
+         <property name="user" value="${jdbc.username}"></property>
+         <property name="password" value="${jdbc.password}"></property> -->
+         
+         <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+         <property name="jdbcUrl" value="jdbc:mysql://139.196.193.182:3306/mt?characterEncoding=utf-8&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;zeroDateTimeBehavior=convertToNull"></property>               
+         <property name="user" value="root"></property>
+         <property name="password" value="root"></property>
+         
+		
+          
+		<property name="minPoolSize" value="#{configproperties['jdbc.minPoolSize']}" /><!--最小连接数-->
+		<property name="maxPoolSize" value="#{configproperties['jdbc.maxPoolSize']}" /><!--最大连接数-->
+		<property name="initialPoolSize" value="#{configproperties['jdbc.initialPoolSize']}" /><!--连接池初始化时获取的连接数，介于minPoolSize和maxPoolSize之间-->
+		<property name="maxIdleTime" value="#{configproperties['jdbc.maxIdleTime']}" /><!--最大空闲的时间，单位是秒，无用的连接空闲超时后会被回收，直到达到最小连接数-->
+		<property name="acquireIncrement" value="#{configproperties['jdbc.acquireIncrement']}" /><!--当前连接耗尽并且在尚未达到最大连接数限制的前提下，一次获取的新连接数量-->
+		<property name="idleConnectionTestPeriod" value="#{configproperties['jdbc.idleConnectionTestPeriod']}" /><!--进行连接空闲超时检查的时间间隔-->
+		<property name="acquireRetryAttempts" value="#{configproperties['jdbc.acquireRetryAttempts']}" /><!--定义在从数据库获取新连接失败后重试的次数，缺省值30次-->
+		<property name="breakAfterAcquireFailure" value="#{configproperties['jdbc.breakAfterAcquireFailure']}" /><!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但
+			是数据源仍保持有效，并在下次调用getConnection()的时候继续重新尝试获取连接。如果设为true，那么在尝试获取连接失败后该数据源
+			将申明已断开并永久关闭。Default:false-->
+	</bean>
+ <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    
+     <property name="configLocation" value="classpath:config-mybatis.xml"/>
+     <property name="dataSource" ref="dataSource"/>
+  </bean>
+  
+  <!-- weblogic/websphere建议用专有的事务管理器 -->
+  <!--bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager"-->
+    <!-- property name="userTransaction" ref="userTransaction" / -->
+    <!--property name="allowCustomIsolationLevels" value="true" /-->
+  <!--/bean-->
+  <!--事务配置-->
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+  </bean>
+  
+  <!-- 扫描数据访问层，组装数据访问接口实现类 -->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.dehui.base.appcert.dao,com.dehui.communication.remote.*"/>
+    <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+  </bean>
+
+</beans>

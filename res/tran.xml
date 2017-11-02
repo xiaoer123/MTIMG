@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE tran-config SYSTEM "tran.dtd" -->
+<tran-config>
+<tran name="FILE001" operation="上传JSON 数据 ，返回URL"
+	servicePath="com.dehui.communication.remote.service.ImgService.saveFile"></tran>
+
+	<tran name="IMG001" operation="上传图片 ，返回URL"
+	servicePath="com.dehui.communication.remote.service.ImgService.saveImg"></tran>
+</tran-config>

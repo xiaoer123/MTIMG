@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+	 "mybatis-3-config.dtd">
+	 
+<configuration>
+	<settings>
+		<setting
+			name="cacheEnabled"
+			value="true" />
+	</settings>
+	<typeAliases>
+		<!-- vo define -->
+		<!-- 例 -->
+		<typeAlias
+			alias="AppcertVO"
+			type="com.dehui.base.appcert.bean.AppcertVO" />
+	</typeAliases>
+
+	<!-- 配置xml与dao层映射关系 -->
+	<mappers>
+		<!-- <mapper resource="META-INF/sqlMappers/appcertDao.xml" /> -->
+	</mappers>
+
+</configuration>

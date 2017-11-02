@@ -1,0 +1,11 @@
+/META-INF/
+/com/
+/config-log4j.properties
+/config-mybatis.xml
+/config-oracle.properties
+/cwgerror.properties
+/dbpool.properties
+/jta.properties
+/mybatis-3-config.dtd
+/system.properties
+/tran.xml
